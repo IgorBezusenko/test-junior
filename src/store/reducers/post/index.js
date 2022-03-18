@@ -14,7 +14,13 @@ const postSlice = createSlice({
             state.posts = action.payload
         },
         addPost(state, action) {
+
             state.posts.push(action.payload)
+            localStorage.setItem("posts", JSON.stringify(state.posts))
+        },
+        deletePost(state, action) {
+            state.posts = state.posts.filter(item => item.id !== action.payload)
+            localStorage.setItem("posts", JSON.stringify(state.posts))
         },
     }
 })

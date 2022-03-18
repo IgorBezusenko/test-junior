@@ -32,7 +32,7 @@ function App() {
                 <Tasks/>
                 <section>
                     {posts.length !== 0 && posts.map(post => {
-                        return <Post key={post.id} title={post.title} body={post.body} tags={post.tags}/>
+                        return <Post key={post.id} id={post.id} title={post.title} body={post.body} tags={post.tags}/>
                     })}
 
                     <Form/>

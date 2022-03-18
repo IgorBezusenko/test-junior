@@ -1,19 +1,21 @@
 import React, {useState} from 'react';
 import ErrorMessage from "./ErrorMessage";
+import {useAction} from "../../hooks/useAction";
 
 const Form = () => {
+    const {addPost} = useAction()
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
     const [tags, setTags] = useState('')
+    const [tagsInfo, setTagsInfo] = useState(false)
 
     const [error, setError] = useState(null)
-    console.log(error)
+
     const handleBlur = (e) => {
         if (!e.target.value) {
             setError(v => ({...v, [e.target.name]: 'Поле не должно быть пустым'}))
         } else setError(v => ({...v, [e.target.name]: null}))
     }
-
 
     const submitForm = (e) => {
         e.preventDefault()
@@ -28,7 +30,14 @@ const Form = () => {
         }
 
         if (title && body && tags) {
-            console.log({title, body, tags})
+
+            const newPost = {
+                id: Date.now(),
+                title,
+                body,
+                tags: tags.split(",")
+            }
+            addPost(newPost)
             setTitle('')
             setBody('')
             setTags('')
@@ -52,6 +61,7 @@ const Form = () => {
                 />
                 <ErrorMessage error={error && error.title}/>
             </div>
+
             <div className={"form-group" + ` ${error && error.body && "bg-danger"}`}>
                 <input
                     value={body}
@@ -64,11 +74,17 @@ const Form = () => {
                 />
                 <ErrorMessage error={error && error.body}/>
             </div>
+
             <div className={"form-group" + ` ${error && error.tags && "bg-danger"}`}>
+                {tagsInfo && <span>Вводите теги через запятую</span>}
                 <input
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
-                    onBlur={handleBlur}
+                    onBlur={(e) => {
+                        handleBlur(e)
+                        setTagsInfo(false)
+                    }}
+                    onFocus={() => setTagsInfo(true)}
                     type="text"
                     className="form-control"
                     name="tags"

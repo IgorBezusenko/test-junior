@@ -1,6 +1,11 @@
 import React from 'react';
+import {useAction} from "../../hooks/useAction";
 
-const Post = ({title, body, tags}) => {
+const Post = ({id, title, body, tags}) => {
+    const {deletePost} = useAction()
+    const handleDeletePost = () => {
+        deletePost(id)
+    }
     return (
         <div id="posts" className="well">
             <article>
@@ -19,7 +24,10 @@ const Post = ({title, body, tags}) => {
                     </div>
                 </footer>
                 <div className="controls">
-                    <button className="btn btn-danger btn-mini">удалить</button>
+                    <button className="btn btn-danger btn-mini"
+                            onClick={handleDeletePost}
+                    >удалить
+                    </button>
                 </div>
             </article>
         </div>

@@ -2,8 +2,6 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     posts: [],
-    isLoading: false,
-    error: null
 }
 
 const postSlice = createSlice({
@@ -14,7 +12,6 @@ const postSlice = createSlice({
             state.posts = action.payload
         },
         addPost(state, action) {
-
             state.posts.push(action.payload)
             localStorage.setItem("posts", JSON.stringify(state.posts))
         },

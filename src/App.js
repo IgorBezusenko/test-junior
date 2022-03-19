@@ -1,3 +1,4 @@
+import React from "react";
 import './App.css'
 import Post from "./components/Posts/Post";
 import Form from "./components/Form/Form";
@@ -9,19 +10,16 @@ import * as mockData from "./posts.json"
 
 function App() {
     const {posts} = useSelector(state => state.postReducer)
-    const {getPosts, addPost} = useAction()
-    // const {id, title, body, tags} = posts && posts[0]
+    const {getPosts} = useAction()
     let postLS = localStorage.getItem("posts")
-    console.log("posts", posts)
-    console.log("postLS", {postLS})
 
     useEffect(() => {
         if (postLS) {
             getPosts(JSON.parse(postLS))
-            console.log("postLS")
         } else {
+            console.log("log")
             getPosts(mockData.default)
-            console.log("mockData")
+            localStorage.setItem("posts", JSON.stringify(mockData.default))
         }
 
     }, [])
